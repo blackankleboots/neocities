@@ -82,7 +82,7 @@
                 } else if (command === 'b') {
                     music.pause();
                   } else if (command === 'q') {
-                    window.location.href = 'index.html';
+                    window.history.back();
                     } else {
                     output.textContent += '\nUnknown command: ' + command;
                 }
