@@ -50,8 +50,7 @@
 
         const pages = {
             '~': 'index.html',
-            'logs': 'logs.html',
-            'music': 'music.html'
+            'logs': 'logs.html'
         };
 
         commandInput.addEventListener('keydown', function(event) {
@@ -77,6 +76,7 @@
 - clear: Clear the environment
 - neofetch: Neofetch reference???
 - whoami: I don't know why I added this, but it's cool
+- music: Opens the music-cli
 - help: Show this helpful message`;
                 } else if (command === 'whoami') {
                   output.textContent += `\n[guest@heavenly ~]$ whoami\nguest`;
@@ -110,7 +110,10 @@
          \\::/    /         
           \\/____/            
 `;
-                } else {
+                } else if (command === 'music') {
+                  output.textContent += `\n[guest@heavenly ~]$ music`;
+                  window.location.href = 'music.html';
+                  } else {
                     output.textContent += `\n[guest@heavenly ~]$ ${command}\nbash: ${command}: command not found`;
                 }
                 output.scrollTop = output.scrollHeight;
