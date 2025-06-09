@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: black; 
+            color: cyan; 
+            padding: 20px; 
+            margin: 0;
+        }
+        #view {
+            white-space: pre;
+            border: 1px solid cyan;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        #user {
+            display: inline;
+        }
+        #cmd {
+            width: 50%;
+            background-color: black;
+            color: cyan;
+            border: none;
+            outline: none;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="view">Welcome to the music page! Commands: q: quit, v: play, b: pause(it will replay the song from the start when you use play, I don't know how to fix), n: next song, p: previous song</div>
+    <div id="user">[guest@heavenly ~]$</div>
+    <input type="text" id="cmd" autofocus />
+    
+    <script>
+        const audios = [
+            'https://github.com/blackankleboots/neocities/raw/refs/heads/main/ALINA%20-%20I%20know,%20I%20know,%20I%20know.mp3',
+            'https://github.com/blackankleboots/neocities/raw/refs/heads/main/Lizzie%20And%20The%20Cannibals%20-%20Candy%20Cigarettes.mp3',
+            'https://github.com/blackankleboots/neocities/raw/refs/heads/main/Lizzie%20And%20The%20Cannibals%20-%20Gods%20Favorite.mp3',
+            'https://github.com/blackankleboots/neocities/raw/refs/heads/main/Sophie%20Woodhouse%20-%20Please!%20Im%20a%20Star!.mp3',
+            'https://github.com/blackankleboots/neocities/raw/refs/heads/main/heart%20heart,%20asi%20kemera%20-%20take%20everything%20its%20all%20yours.mp3'
+            ];
+        const yt_link = [
+            'https://youtu.be/OWq6DSiGCL8',
+            'https://youtu.be/TE3_5OmVARM',
+            'https://youtu.be/0yCOPkkkY9k',
+            'https://youtu.be/GCEX4IaXKIg',
+            'https://youtu.be/CnnJNIKDcFY'
+        ];
+        
+        let count = -1;
+        let music = null;
+        const commandInput = document.getElementById('cmd');
+        const output = document.getElementById('view');
+
+        commandInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const command = commandInput.value.trim();
+                commandInput.value = '';
+
+                if (command === 'n') {
+                    if (count < audios.length - 1) {
+                        count++;
+                        ply();
+                    } else {
+                        output.textContent += '\nNo more songs in the playlist.';
+                    }
+                } else if (command === 'p') {
+                    if (count > 0) {
+                        count--;
+                        ply();
+                    } else {
+                        output.textContent += '\nThis is the first song in the playlist.';
+                    }
+                } else if (command === 'v') {
+                    ply();
+                } else if (command === 'b') {
+                    music.pause();
+                  } else if (command === 'q') {
+                    window.location.href = 'index.html';
+                    } else {
+                    output.textContent += '\nUnknown command: ' + command;
+                }
+            }
+        });
+
+        function ply() {
+            if (count >= 0 && count < audios.length) {
+                if (music) {
+                    music.pause();
+                }
+                music = new Audio(audios[count]);
+                music.play();
+                output.textContent += '\nPlaying: ' + audios[count].split('/').pop().replace(/%20/g, ' ').replace(/\.mp3$/, '');
+                output.textContent += '\nCredit: ' + yt_link[count];
+            }
+        }
+    </script>
+</body>
+</html>
