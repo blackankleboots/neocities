@@ -1,92 +1,93 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <style>
-        body {
-            font-family: monospace;
-            background-color: black;
-            color: cyan;
-            padding: 20px;
-            margin: 0;
-        }
 
-        #view {
-            white-space: pre;
-            border: 1px solid cyan;
-            padding: 10px;
-            height: 300px;
-            overflow-y: auto;
-        }
+<style>
 
-        #user {
-            display: inline;
-        }
+  body {
+  font-family: monospace;
+  background-color: black; 
+  color: cyan; 
+  padding: 20px; 
+  margin: 0;}
 
-        #cmd {
-            width: 50%;
-            background-color: black;
-            color: cyan;
-            border: none;
-            outline: none;
-            font-family: monospace;
-        }
-    </style>
+  #view {
+  white-space: pre;
+  border: 1px solid cyan;
+  padding: 10px;
+  height: 300px;
+  overflow-y: auto;
+  }
+  
+  #user {
+    display: inline;
+  }
+  
+  #cmd {
+    width: 50%;
+    background-color: black;
+    color: cyan;
+    border: none;
+    outline: none;
+    font-family: monospace;
+  }
+  
+</style>
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Heavenly</title>
-    </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heavenly</title>
+</head>
 
-    <body>
-        <div id="view">Welcome to the root page! Use help to see available commands!</div>
-        <div id="user">[guest@heavenly ~]$</div>
-        <input type="text" id="cmd" autofocus />
-        <script>
-            const output = document.getElementById("view");
-            const commandInput = document.getElementById("cmd");
+<body>
+  <div id="view">Welcome to the home page! Use help to see available commands!</div>
+  <div id="user">[guest@heavenly ~]$</div>
+  <input type="text" id="cmd" autofocus />
+  <script>
+        const output = document.getElementById('view');
+        const commandInput = document.getElementById('cmd');
 
-            const pages = {
-                "~": "index.html",
-                logs: "logs.html",
-                music: "music.html",
-            };
+        const pages = {
+            '~': 'index.html',
+            'logs': 'logs.html'
+        };
 
-            commandInput.addEventListener("keydown", function (event) {
-                if (event.key === "Enter") {
-                    const command = commandInput.value.trim();
-                    commandInput.value = "";
+        commandInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const command = commandInput.value.trim();
+                commandInput.value = '';
 
-                    if (command === "ls") {
-                        output.textContent += "\n[guest@heavenly ~]$ ls\n" + Object.keys(pages).join("\n");
-                    } else if (command.startsWith("cd ")) {
-                        const page = command.split(" ")[1];
-                        if (pages[page]) {
-                            output.textContent += `\n[guest@heavenly ~]$ cd ${page}`;
-                            window.location.href = pages[page];
-                        } else {
-                            output.textContent += `\n[guest@heavenly ~]$ cd ${page}\nbash: cd: ${page}: no such file or directory`;
-                        }
-                    } else if (command === "clear") {
-                        output.textContent = "";
-                    } else if (command === "help") {
-                        output.textContent += `\n[guest@heavenly ~]$ help\navailable commands:
+                if (command === 'ls') {
+                    output.textContent += '\n[guest@heavenly ~]$ ls\n' + Object.keys(pages).join('\n');
+                } else if (command.startsWith('cd ')) {
+                    const page = command.split(' ')[1];
+                    if (pages[page]) {
+                        output.textContent += `\n[guest@heavenly ~]$ cd ${page}`;
+                        window.location.href = pages[page];
+                    } else {
+                        output.textContent += `\n[guest@heavenly ~]$ cd ${page}\nbash: cd: ${page}: no such file or directory`;
+                    }} else if (command === 'clear') {
+                    output.textContent = '';
+                } else if (command === 'help') {
+                  output.textContent += `\n[guest@heavenly ~]$ help\navailable commands:
 - ls: List available pages
 - cd [page]: Change directory to the specified page
 - clear: Clear the environment
 - neofetch: Neofetch reference???
 - whoami: I don't know why I added this, but it's cool
+- music: Opens the music-cli
 - help: Show this helpful message`;
-                    } else if (command === "whoami") {
-                        output.textContent += `\n[guest@heavenly ~]$ whoami\nguest`;
-                    } else if (command === "neofetch") {
-                        const userAgent = navigator.userAgent;
-                        const platform = navigator.platform;
-                        const screenWidth = window.screen.width;
-                        const screenHeight = window.screen.height;
-                        const language = navigator.language || navigator.userLanguage;
-
-                        output.textContent += `\n[guest@heavenly ~]$ neofetch\n
+                } else if (command === 'whoami') {
+                  output.textContent += `\n[guest@heavenly ~]$ whoami\nguest`;
+                } else if (command === 'neofetch') {
+                  const userAgent = navigator.userAgent;
+                  const platform = navigator.platform;
+                  const screenWidth = window.screen.width;
+                  const screenHeight = window.screen.height;
+                  const language = navigator.language || navigator.userLanguage;
+                  
+                  output.textContent += `\n[guest@heavenly ~]$ neofetch\n
            _____            guest@heavenly
           /\\    \\           ---------------------
          /::\\____\\          OS: Heavenly ${platform}
@@ -109,12 +110,14 @@
          \\::/    /         
           \\/____/            
 `;
-                    } else {
-                        output.textContent += `\n[guest@heavenly ~]$ ${command}\nbash: ${command}: command not found`;
-                    }
-                    output.scrollTop = output.scrollHeight;
+                } else if (command === 'music') {
+                  output.textContent += `\n[guest@heavenly ~]$ music`;
+                  window.location.href = 'music.html';
+                  } else {
+                    output.textContent += `\n[guest@heavenly ~]$ ${command}\nbash: ${command}: command not found`;
                 }
-            });
-        </script>
-    </body>
-</html>
+                output.scrollTop = output.scrollHeight;
+            }
+        });
+    </script>
+</body>
